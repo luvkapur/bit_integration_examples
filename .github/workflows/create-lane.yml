@@ -6,7 +6,8 @@ on:
       - main
 jobs:
   create_lane:
-    name: "Create Lane"
+    name: create lane
     runs-on: ubuntu-latest
     steps:
+    - name: create local lane
       run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
