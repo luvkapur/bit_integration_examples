@@ -29,7 +29,7 @@ jobs:
       steps:
         - run: npm i -g @teambit/bvm
         - run: bvm upgrade
-        - run: export PATH=$HOME/bin:$PATH
+        - run: echo 'export PATH=~/.npm-global/bin:$PATH'
         - run: bit init
         - run: bit status
 
