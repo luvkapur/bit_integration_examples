@@ -46,6 +46,8 @@ jobs:
             bit config set user.token $BIT_TOKEN
         - name: Initialize Bit 
           run: bit init
-        - name: create local lane
+        - name: Create Local Lane
           run: bit lane create $LANE_NAME
+        - name: Check Status
+          run: bit s
   
