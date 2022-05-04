@@ -39,7 +39,10 @@
     "packageManager": "teambit.dependencies/pnpm",
     "policy": {
       "dependencies": {},
-      "peerDependencies": {}
+      "peerDependencies": {
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+      }
     }
   },
   /**
@@ -57,7 +60,7 @@
       /**
        * uncomment to apply the chosen environment on all components.
        **/
-      // "teambit.react/react": { }
+      "teambit.react/react": { }
     }
   }
 }
