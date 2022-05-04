@@ -44,8 +44,8 @@ jobs:
             bit config set analytics_reporting false
             bit config set anonymous_reporting false
             bit config set user.token $BIT_TOKEN
-        - name: Initialize Bit 
-          run: bit init
+        - name: Import Components
+          run: bit import
         - name: Create Local Lane
           run: bit lane create $LANE_NAME
         - name: Check Status
