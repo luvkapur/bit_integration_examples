@@ -15,7 +15,6 @@ jobs:
         node-version: [15.x]
 
     steps:
-      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -30,6 +29,8 @@ jobs:
 
       env:
         BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
+        LANE_NAME: ${{ github.event.pull_request.head.ref }}
+
       steps:
         - uses: actions/checkout@v3
         - name: Install Bit Version Manager
@@ -45,20 +46,6 @@ jobs:
             bit config set user.token $BIT_TOKEN
         - name: Initialize Bit 
           run: bit init
-
-  setup_local_lane:
-      name: setup local lane
-
-      runs-on: ubuntu-latest
-
-      needs: [setup_bit]
-
-      env:
-        LANE_NAME: ${{ github.event.pull_request.head.ref }}
-      
-      steps:
-        - uses: actions/checkout@v3
         - name: create local lane
           run: bit lane create $LANE_NAME
-      
   
