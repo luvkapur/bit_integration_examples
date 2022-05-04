@@ -27,11 +27,18 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - run: npm i -g @teambit/bvm
-        - run: bvm upgrade
-        - run: echo 'export PATH=~/.npm-global/bin:$PATH'
-        - run: bit init
-        - run: bit status
-
+        - name: Install Bit Version Manager
+          run: npm i -g @teambit/bvm
+        - name: Install latest Bit version
+          run: bvm install
+        - name: add bvm bin folder to path
+          run: echo "$HOME/bin" >> $GITHUB_PATH
+        - name: Set up bit config
+          run: |
+            bit config set analytics_reporting false
+            bit config set anonymous_reporting false
+            bit config set user.token $BIT_TOKEN
+        - name: Install packages using bit
+          run: bit install
       
   
