@@ -1,0 +1,12 @@
+name: Create Lane
+on:
+  pull_request:
+    types: [opened]
+    branches:    
+      - main
+jobs:
+  create_lane:
+    name: "Create Lane"
+    runs-on: ubuntu-latest
+    steps:
+      run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
