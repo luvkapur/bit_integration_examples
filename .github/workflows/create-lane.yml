@@ -5,9 +5,33 @@ on:
     branches:    
       - main
 jobs:
-  create_lane:
-    name: create lane
+  setup_npm:
+    name: setup npm
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
     steps:
-    - name: create local lane
-      run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+  install_bvm:
+      name: install bvm
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - run: npm i -g @teambit/bvm
+        - run: echo 'export PATH=~/.npm-global/bin:$PATH' >> $BASH_ENV
+        - run: bvm upgrade
+        - run: bit init
+        - run: bit status
+
+      
+  
