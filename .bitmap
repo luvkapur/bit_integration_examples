@@ -9,5 +9,29 @@
  */
 
 {
+    "inputs/dropdown": {
+        "scope": "teambit.design",
+        "version": "0.0.11",
+        "mainFile": "index.ts",
+        "rootDir": "design/inputs/dropdown"
+    },
+    "inputs/selectors/checkbox-item": {
+        "scope": "teambit.design",
+        "version": "0.1.2",
+        "mainFile": "index.ts",
+        "rootDir": "design/inputs/selectors/checkbox-item"
+    },
+    "inputs/selectors/menu-item": {
+        "scope": "teambit.design",
+        "version": "0.1.2",
+        "mainFile": "index.ts",
+        "rootDir": "design/inputs/selectors/menu-item"
+    },
+    "inputs/selectors/multi-select": {
+        "scope": "teambit.design",
+        "version": "0.1.2",
+        "mainFile": "index.ts",
+        "rootDir": "design/inputs/selectors/multi-select"
+    },
     "$schema-version": "14.9.0"
 }

@@ -5,9 +5,53 @@ on:
     branches:    
       - main
 jobs:
-  create_lane:
-    name: create lane
+  setup_npm:
+    name: setup npm
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
     steps:
-    - name: create local lane
-      run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+  setup_bit:
+      name: setup bit
+
+      runs-on: ubuntu-latest
+
+      needs: [setup_npm]  
+
+      env:
+        BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
+        LANE_NAME: ${{ github.event.pull_request.head.ref }}
+
+      steps:
+        - uses: actions/checkout@v3
+        - name: Install Bit Version Manager
+          run: npm i -g @teambit/bvm
+        - name: Install latest Bit version
+          run: bvm install
+        - name: add bvm bin folder to path
+          run: echo "$HOME/bin" >> $GITHUB_PATH
+        - name: Set up bit config
+          run: |
+            bit config set analytics_reporting false
+            bit config set anonymous_reporting false
+            bit config set user.token $BIT_TOKEN
+        - name: Import Components
+          run: bit import
+        - name: Create Local Lane
+          run: bit lane create $LANE_NAME
+        - name: Install and Compile 
+          run: bit install && bit compile
+        - name: Snap All Components to the Lane
+          run: bit snap -a
+        - name: Export the Lane
+          run: bit export
+  
