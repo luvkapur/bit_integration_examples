@@ -19,7 +19,7 @@ jobs:
   update_lane:
     name: 'Update Lane'
     runs-on: ubuntu-latest
-     if: github.event.pull_request.closed == true
+    if: github.event.pull_request.closed == true
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   merge_lane:
