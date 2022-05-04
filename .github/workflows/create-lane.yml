@@ -48,6 +48,11 @@ jobs:
           run: bit import
         - name: Create Local Lane
           run: bit lane create $LANE_NAME
-        - name: Check Status
-          run: bit s
+        - name: Install and Compile 
+          run: bit install
+          run: bit compile
+        - name: Snap All Components to the Lane
+          run: bit snap -a
+        - name: Export the Lane
+          run: bit export
   
