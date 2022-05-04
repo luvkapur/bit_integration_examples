@@ -31,6 +31,7 @@ jobs:
       env:
         BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
       steps:
+        - uses: actions/checkout@v3
         - name: Install Bit Version Manager
           run: npm i -g @teambit/bvm
         - name: Install latest Bit version
@@ -42,8 +43,8 @@ jobs:
             bit config set analytics_reporting false
             bit config set anonymous_reporting false
             bit config set user.token $BIT_TOKEN
-        - name: Install packages using bit
-          run: bit install
+        - name: Initialize Bit 
+          run: bit init
 
   setup_local_lane:
       name: setup local lane
@@ -56,6 +57,7 @@ jobs:
         LANE_NAME: ${{ github.event.pull_request.head.ref }}
       
       steps:
+        - uses: actions/checkout@v3
         - name: create local lane
           run: bit lane create $LANE_NAME
       
