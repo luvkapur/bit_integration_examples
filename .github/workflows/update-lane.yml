@@ -58,7 +58,7 @@ jobs:
 
     outputs:
       lane_scope: ${{ steps.lane_artifact.outputs.scope }}
-      lane_name: $LANE_NAME
+      lane_name: ${{ needs.extract_local_lane_name.outputs.extracted }}
 
     steps:
       - name: Download Lane Artifact
