@@ -48,7 +48,6 @@ jobs:
 
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
-      LANE_NAME: ${{ steps.extract_local_lane_name.outputs.replaced }}
 
     if: startsWith(github.head_ref, 'components/')
     
@@ -69,7 +68,7 @@ jobs:
         run: bit import
       
       - name: Create Local Lane
-        run: bit lane create $LANE_NAME
+        run: bit lane create ${{ steps.extract_local_lane_name.outputs.replaced }}
       - name: Install and Compile all Components
         run: bit install && bit compile
       - name: Snap all Components to the Lane
