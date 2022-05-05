@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: startsWith(github.head_ref, 'components/')
+    # if: startsWith(github.head_ref, 'components/')
 
     strategy:
       matrix:
@@ -50,7 +50,7 @@ jobs:
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
 
-    if: startsWith(github.head_ref, 'components/')
+    # if: startsWith(github.head_ref, 'components/')
     
     steps:
       - run: echo ${{ steps.extract_local_lane_name.outputs.replaced }}
@@ -58,6 +58,7 @@ jobs:
       - run: echo ${{ needs.setup_npm.outputs.replaced }}
       - run: echo ${{ steps }}
       - run: echo ${{ needs }}
+      - run: echo ${{ github }}
 
       # - uses: actions/checkout@v3
       # - name: Install Bit Version Manager
