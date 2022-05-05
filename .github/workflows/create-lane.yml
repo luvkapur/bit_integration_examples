@@ -40,7 +40,7 @@ jobs:
         id: extract
         uses: frabert/replace-string-action@v2.0
         with:
-          pattern: '\/'
+          pattern: '/'
           string: $BRANCH_NAME
           replace-with: '_'
       - name: output
