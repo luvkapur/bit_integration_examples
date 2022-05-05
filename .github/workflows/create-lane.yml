@@ -37,6 +37,7 @@ jobs:
 
     steps:
       - name: Replace illegal characters from head branch name
+        id: extract
         uses: frabert/replace-string-action@v2.0
         with:
           pattern: '\/'
