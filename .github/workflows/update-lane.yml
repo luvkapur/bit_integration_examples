@@ -18,7 +18,7 @@ jobs:
 
     needs: [verify_lane_has_been_exported]  
 
-    if: ${{ needs.verify_lane_has_been_exported.outputs.isExported == 1 }}
+    if: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope != '' }}
 
     steps:
       - name: Use Node.js ${{ matrix.node-version }}
@@ -57,8 +57,7 @@ jobs:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
 
     outputs:
-      isExported: ${{ steps.lane_artifact.scope != 0 }} 
-      scope: ${{ steps.lane_artifact.scope }}
+      lane_scope: ${{ steps.lane_artifact.scope }}
       lane_name: $LANE_NAME
 
     steps:
@@ -85,9 +84,9 @@ jobs:
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
       LANE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_name }} 
-      SCOPE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.scope }}
+      SCOPE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope }}
 
-    if: ${{ needs.verify_lane_has_been_exported.outputs.isExported == 1 }}
+    if: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope != '' }}
 
     steps:
       - run: echo "updating lane with a pr"
