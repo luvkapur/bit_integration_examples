@@ -1,9 +1,10 @@
 name: Create Lane
-on:
-  pull_request:
-    types: [opened]
-    branches:    
-      - main
+on: push
+  # pull_request:
+  #   types: [opened]
+  #   branches:    
+  #     - main
+
   
 jobs:
   # setup_npm:
@@ -53,6 +54,11 @@ jobs:
     
     steps:
       - run: echo ${{ steps.extract_local_lane_name.outputs.replaced }}
+      - run: echo ${{ steps.setup_bit.outputs.replaced }}
+      - run: echo ${{ needs.setup_npm.outputs.replaced }}
+      - run: echo ${{ steps }}
+      - run: echo ${{ needs }}
+
       # - uses: actions/checkout@v3
       # - name: Install Bit Version Manager
       #   run: npm i -g @teambit/bvm
