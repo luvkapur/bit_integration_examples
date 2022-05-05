@@ -55,7 +55,7 @@ jobs:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
 
     outputs:
-      isExported: ${{ steps.lane_artifact.scope != "" }} 
+      isExported: ${{ steps.lane_artifact.scope != 0 }} 
       scope: ${{ steps.lane_artifact.scope }}
       lane_name: $LANE_NAME
 
@@ -79,7 +79,7 @@ jobs:
       LANE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_name }} 
       SCOPE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.scope }}
 
-    if: ${{ needs.verify_lane_has_been_exported.isExported == true }}
+    if: ${{ needs.verify_lane_has_been_exported.isExported == 1 }}
 
     steps:
       - run: echo "updating lane with a pr"
