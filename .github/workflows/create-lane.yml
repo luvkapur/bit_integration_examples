@@ -1,18 +1,20 @@
 name: Create Lane
-on: push
-  # pull_request:
-  #   types: [opened]
-  #   branches:    
-  #     - main
 
-  
+on:
+  pull_request:
+    types: [opened]
+    branches:    
+      - main
+  push:
+    branches:
+      - components/*
+
 jobs:
   setup_npm:
+
     name: setup npm
 
     runs-on: ubuntu-latest
-
-    # if: startsWith(github.head_ref, 'components/')
 
     strategy:
       matrix:
@@ -25,12 +27,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
   extract_local_lane_name:
+
     name: extract local lane name
 
     runs-on: ubuntu-latest
 
     env:
-      BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+      BRANCH_NAME: ${{ github.event.pull_request.head.ref }} || ${{ github.ref_name }}
 
     steps:
       - name: Replace illegal characters from head branch name
@@ -49,34 +52,24 @@ jobs:
 
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
-      NEEDS: ${{ toJSON(needs) }}
-      GITHUB: ${{ toJSON(github) }}
-    # if: startsWith(github.head_ref, 'components/')
+      LANE_NAME: ${{ needs.extract_local_lane_name.outputs.replaced }}
     
     steps:
-      - run: echo $NEEDS
-      - run: echo $GITHUB
-
-      # - uses: actions/checkout@v3
-      # - name: Install Bit Version Manager
-      #   run: npm i -g @teambit/bvm
-      # - name: Install latest Bit version
-      #   run: bvm install
-      # - name: add bvm bin folder to path
-      #   run: echo "$HOME/bin" >> $GITHUB_PATH
-      # - name: Set up bit config
-      #   run: |
-      #     bit config set analytics_reporting false
-      #     bit config set anonymous_reporting false
-      #     bit config set user.token $BIT_TOKEN
-      # - name: Import Components
-      #   run: bit import
-      
-      # - name: Create Local Lane
-      #   run: bit lane create ${{ steps.extract_local_lane_name.outputs.replaced }}
-      # - name: Install and Compile all Components
-      #   run: bit install && bit compile
-      # - name: Snap all Components to the Lane
-      #   run: bit snap -a
-      # - name: Export the Lane
-      #   run: bit export
+      - uses: actions/checkout@v3
+      - name: Install Bit Version Manager
+        run: npm i -g @teambit/bvm
+      - name: Install latest Bit version
+        run: bvm install
+      - name: add bvm bin folder to path
+        run: echo "$HOME/bin" >> $GITHUB_PATH
+      - name: Set up bit config
+        run: |
+          bit config set analytics_reporting false
+          bit config set anonymous_reporting false
+          bit config set user.token $BIT_TOKEN
+      - name: Import Components
+        run: bit import
+      - name: Create Local Lane
+        run: bit lane create $LANE_NAME
+      - name: Install and Compile all Components
+        run: bit install && bit compile
