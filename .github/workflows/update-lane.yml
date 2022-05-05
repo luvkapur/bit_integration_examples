@@ -61,9 +61,10 @@ jobs:
 
     steps:
       - name: Download Lane Artifact
-        uses: actions/download-artifact@v3
+        uses: dawidd6/action-download-artifact@v2
         with: 
           name: ${{ needs.extract_local_lane_name.outputs.extracted }}
+          workflow: create-lane.yml
       - id: lane_artifact
         run: var=$(cat $LANE_NAME);echo "::set-output name=scope::$var"
       
