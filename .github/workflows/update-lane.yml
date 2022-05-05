@@ -89,28 +89,25 @@ jobs:
     if: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope != '' }}
 
     steps:
-      - run: echo "updating lane with a pr"
-      # - name: Install Bit Version Manager
-      #   run: npm i -g @teambit/bvm
-      # - name: Install latest Bit version
-      #   run: bvm install
-      # - name: add bvm bin folder to path
-      #   run: echo "$HOME/bin" >> $GITHUB_PATH
-      # - name: Set up bit config
-      #   run: |
-      #     bit config set analytics_reporting false
-      #     bit config set anonymous_reporting false
-      #     bit config set user.token $BIT_TOKEN
-      # - name: add bvm bin folder to path
-      #   run: echo "$HOME/bin" >> $GITHUB_PATH
-      # - uses: actions/checkout@v3
-      # - name: Create Local Lane
-      #   run: bit lane create $LANE_NAME
-      # - name: Import Components
-      #   run: bit import
-      # - name: Install and Compile
-      #   run: bit install && bit compile
-      # - name: Snap All Components without building them
-      #   run: BIT_FEATURES=build-on-ci bit snap -a
-      # - name: Export the Lane and the Components
-      #   run: bit export
+      - name: Install Bit Version Manager
+        run: npm i -g @teambit/bvm
+      - name: Install latest Bit version
+        run: bvm install
+      - name: add bvm bin folder to path
+        run: echo "$HOME/bin" >> $GITHUB_PATH
+      - name: Set up bit config
+        run: |
+          bit config set analytics_reporting false
+          bit config set anonymous_reporting false
+          bit config set user.token $BIT_TOKEN
+      - name: add bvm bin folder to path
+        run: echo "$HOME/bin" >> $GITHUB_PATH
+      - uses: actions/checkout@v3
+      - name: Import Existing Lane
+        run: bit lane import $SCOPE_NAME/$LANE_NAME
+      - name: Install and Compile
+        run: bit install && bit compile
+      - name: Snap All Components without building them
+        run: BIT_FEATURES=build-on-ci bit snap -a
+      - name: Export the Lane and the Components
+        run: bit export
