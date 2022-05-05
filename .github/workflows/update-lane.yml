@@ -68,7 +68,7 @@ jobs:
           name: ${{ needs.extract_local_lane_name.outputs.extracted }}
           workflow: create-lane.yml
       - id: lane_artifact
-        run: var=$(cat $LANE_NAME);echo "::set-output name=scope::$var"
+        run: var=$(cat $LANE_NAME.txt);echo "::set-output name=scope::$var"
       
   update_and_export_lane:
     name: update and export lane
