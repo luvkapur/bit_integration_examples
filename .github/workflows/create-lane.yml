@@ -90,5 +90,5 @@ jobs:
         run: grep -n "remote" export_output.txt | tail -1 | awk '{print $NF}' > $LANE_ARTIFACT_FILE_NAME
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ LANE_ARTIFACT_NAME }}
-          path: ${{ LANE_ARTIFACT_FILE_NAME }}
+          name: ${{ $LANE_ARTIFACT_NAME }}
+          path: ${{ $LANE_ARTIFACT_FILE_NAME }}
