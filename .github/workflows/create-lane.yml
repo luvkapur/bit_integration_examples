@@ -6,22 +6,22 @@ on:
       - main
   
 jobs:
-  setup_npm:
-    name: setup npm
+  # setup_npm:
+  #   name: setup npm
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    if: startsWith(github.head_ref, 'components/')
+  #   if: startsWith(github.head_ref, 'components/')
 
-    strategy:
-      matrix:
-        node-version: [15.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [15.x]
 
-    steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+  #   steps:
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
   extract_local_lane_name:
     name: extract local lane name
@@ -52,26 +52,27 @@ jobs:
     if: startsWith(github.head_ref, 'components/')
     
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Bit Version Manager
-        run: npm i -g @teambit/bvm
-      - name: Install latest Bit version
-        run: bvm install
-      - name: add bvm bin folder to path
-        run: echo "$HOME/bin" >> $GITHUB_PATH
-      - name: Set up bit config
-        run: |
-          bit config set analytics_reporting false
-          bit config set anonymous_reporting false
-          bit config set user.token $BIT_TOKEN
-      - name: Import Components
-        run: bit import
+      - run: echo ${{ steps.extract_local_lane_name.outputs.replaced }}
+      # - uses: actions/checkout@v3
+      # - name: Install Bit Version Manager
+      #   run: npm i -g @teambit/bvm
+      # - name: Install latest Bit version
+      #   run: bvm install
+      # - name: add bvm bin folder to path
+      #   run: echo "$HOME/bin" >> $GITHUB_PATH
+      # - name: Set up bit config
+      #   run: |
+      #     bit config set analytics_reporting false
+      #     bit config set anonymous_reporting false
+      #     bit config set user.token $BIT_TOKEN
+      # - name: Import Components
+      #   run: bit import
       
-      - name: Create Local Lane
-        run: bit lane create ${{ steps.extract_local_lane_name.outputs.replaced }}
-      - name: Install and Compile all Components
-        run: bit install && bit compile
-      - name: Snap all Components to the Lane
-        run: bit snap -a
-      - name: Export the Lane
-        run: bit export
+      # - name: Create Local Lane
+      #   run: bit lane create ${{ steps.extract_local_lane_name.outputs.replaced }}
+      # - name: Install and Compile all Components
+      #   run: bit install && bit compile
+      # - name: Snap all Components to the Lane
+      #   run: bit snap -a
+      # - name: Export the Lane
+      #   run: bit export
