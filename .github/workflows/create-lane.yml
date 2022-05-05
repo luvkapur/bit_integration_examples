@@ -44,7 +44,7 @@ jobs:
           string: $BRANCH_NAME
           replace-with: '_'
       - name: output
-        run: echo ${{ steps.extract.outputs.replaced }} 
+        run: echo ${{ toJSON(steps.extract.outputs) }}
 
   setup_bit:
     name: setup bit
