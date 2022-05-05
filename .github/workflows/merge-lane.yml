@@ -1,7 +1,7 @@
-name: Create Lane
+name: Merge Lane
 on:
   pull_request:
-    types: [opened]
+    types: [closed]
     branches:    
       - main
   
@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: startsWith(github.head_ref, 'components/')
+    if: startsWith(github.head_ref, 'components/') && github.event.pull_request.merged == true
 
     strategy:
       matrix:
@@ -34,7 +34,7 @@ jobs:
         BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
         LANE_NAME: ${{ github.event.pull_request.head.ref }}
 
-      if: startsWith(github.head_ref, 'components/')
+      if: startsWith(github.head_ref, 'components/') github.event.pull_request.merged == true
       
       steps:
         - uses: actions/checkout@v3
@@ -55,8 +55,8 @@ jobs:
           run: bit lane create $LANE_NAME
         - name: Install and Compile all Components
           run: bit install && bit compile
-        - name: Snap all Components to the Lane
-          run: bit snap -a
+        - name: Merge Main Lane
+          run: bit lane merge
         - name: Export the Lane
           run: bit export
   
