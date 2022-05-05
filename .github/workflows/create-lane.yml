@@ -51,8 +51,14 @@ jobs:
             bit config set user.token $BIT_TOKEN
         - name: Import Components
           run: bit import
+        - name: Update Local Lane Name
+          uses: frabert/replace-string-action@v2.0
+          with:
+            pattern: '\/'
+            string: $LANE_NAME
+            replace-with: '_'
         - name: Create Local Lane
-          run: bit lane create $LANE_NAME
+          run: bit lane create ${{ steps.setup_bit.outputs.replaced }}
         - name: Install and Compile all Components
           run: bit install && bit compile
         - name: Snap all Components to the Lane
