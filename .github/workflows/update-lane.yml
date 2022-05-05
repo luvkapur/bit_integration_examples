@@ -69,8 +69,8 @@ jobs:
           workflow: create-lane.yml
       - id: lane_artifact
         run: |
-        var=$(cat $LANE_NAME.txt);
-        echo ::set-output name=scope::$var
+          var=$(cat $LANE_NAME.txt);
+          echo ::set-output name=scope::$var
 
       - name: Display Lane Scope
         run: echo ${{ steps.lane_artifact.outputs.scope }}
