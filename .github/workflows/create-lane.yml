@@ -7,22 +7,22 @@ on: push
 
   
 jobs:
-  # setup_npm:
-  #   name: setup npm
+  setup_npm:
+    name: setup npm
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   if: startsWith(github.head_ref, 'components/')
+    if: startsWith(github.head_ref, 'components/')
 
-  #   strategy:
-  #     matrix:
-  #       node-version: [15.x]
+    strategy:
+      matrix:
+        node-version: [15.x]
 
-  #   steps:
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
   extract_local_lane_name:
     name: extract local lane name
