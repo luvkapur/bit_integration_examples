@@ -18,7 +18,7 @@ jobs:
 
     needs: [verify_lane_has_been_exported]  
 
-    if: ${{ needs.verify_lane_has_been_exported.outputs.isExported == 1 }}
+    if: ${{ env.scope != 0 }}
 
     steps:
       - name: Use Node.js ${{ matrix.node-version }}
@@ -57,8 +57,6 @@ jobs:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
 
     outputs:
-      isExported: ${{ steps.lane_artifact.scope != 0 }} 
-      scope: ${{ steps.lane_artifact.scope }}
       lane_name: $LANE_NAME
 
     steps:
@@ -67,10 +65,10 @@ jobs:
         with: 
           name: ${{ needs.extract_local_lane_name.outputs.extracted }}
           workflow: create-lane.yml
-      - id: lane_artifact
-        run: var=$(cat $LANE_NAME.txt);echo "::set-output name=scope::$var"
+      - name: Attach Lane Scope to Env 
+        run: var=$(cat $LANE_NAME.txt);echo "scope=$(var)" >> $GITHUB_ENV
       - name: Display Lane Scope
-        run: cat $LANE_NAME.txt
+        run: echo ${{ env.scope }}
       
   update_and_export_lane:
     name: update and export lane
@@ -84,7 +82,7 @@ jobs:
       LANE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_name }} 
       SCOPE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.scope }}
 
-    if: ${{ needs.verify_lane_has_been_exported.outputs.isExported == 1 }}
+    if: ${{ env.scope == 1 }}
 
     steps:
       - run: echo "updating lane with a pr"
