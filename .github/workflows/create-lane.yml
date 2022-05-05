@@ -88,4 +88,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ needs.extract_local_lane_name.outputs.extracted }}
-          path: ${{ needs.extract_local_lane_name.outputs.extracted }.txt
+          path: ${{ needs.extract_local_lane_name.outputs.extracted }}.txt
