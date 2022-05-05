@@ -47,7 +47,7 @@ jobs:
           flags: 'g'
 
   export_lane:
-    name: export lane
+    name: create and export lane
 
     runs-on: ubuntu-latest
 
@@ -57,10 +57,8 @@ jobs:
 
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
-
-    outputs:
-      lane_name: ${{ needs.extract_local_lane_name.outputs.extracted }} 
-    
+      LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }} 
+   
     steps:
       - name: Install Bit Version Manager
         run: npm i -g @teambit/bvm
