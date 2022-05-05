@@ -57,7 +57,7 @@ jobs:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
 
     outputs:
-      lane_scope: ${{ steps.lane_artifact.scope }}
+      lane_scope: ${{ steps.lane_artifact.outputs.scope }}
       lane_name: $LANE_NAME
 
     steps:
