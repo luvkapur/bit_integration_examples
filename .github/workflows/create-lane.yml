@@ -52,10 +52,12 @@ jobs:
 
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
+      NEEDS: ${{ toJSON(needs) }}
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.replaced }}
     
     steps:
       - run: echo $LANE_NAME
+      - run: echo $NEEDS
       #   run: npm i -g @teambit/bvm
       # - uses: actions/checkout@v3
       # - name: Install Bit Version Manager
