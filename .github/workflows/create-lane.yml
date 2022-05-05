@@ -44,8 +44,6 @@ jobs:
           string: ${{ github.event.pull_request.head.ref || github.ref_name }}
           replace-with: '_'
           flags: 'g'
-      - name: output
-        run: echo ${{ toJSON(steps.extract.outputs) }}
 
   setup_bit:
     name: setup bit
