@@ -58,8 +58,8 @@ jobs:
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }} 
-      LANE_ARTIFACT_FILE_NAME: create/${{ needs.extract_local_lane_name.outputs.extracted }}.txt
-      LANE_ARTIFACT_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_info
+      LANE_ARTIFACT_FILE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}.txt
+      LANE_ARTIFACT_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}
    
     steps:
       - name: Install Bit Version Manager
