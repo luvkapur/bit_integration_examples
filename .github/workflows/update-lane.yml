@@ -1,12 +1,8 @@
-# name: Create Lane
+# name: Update Lane
 
 # on:
-#   pull_request:
-#     types: [opened]
-#     branches:    
-#       - main
 #   push:
-#     branches:
+#     branches:    
 #       - components/*
 
 # jobs:
@@ -15,8 +11,6 @@
 #     name: setup npm
 
 #     runs-on: ubuntu-latest
-
-#     if: startsWith(github.event.pull_request.head.ref, 'components/') || startsWith(github.ref_name, 'components/')
 
 #     strategy:
 #       matrix:
@@ -34,8 +28,6 @@
 
 #     runs-on: ubuntu-latest
 
-#     if: startsWith(github.event.pull_request.head.ref, 'components/') || startsWith(github.ref_name, 'components/')
-
 #     outputs: 
 #       extracted: ${{ steps.extract.outputs.replaced }}
 
@@ -45,25 +37,24 @@
 #         uses: frabert/replace-string-action@v2.0
 #         with:
 #           pattern: '/'
-#           string: ${{ github.event.pull_request.head.ref || github.ref_name }}
+#           string: ${{ github.event.pull_request.head.ref }}
 #           replace-with: '_'
 #           flags: 'g'
 
-#   setup_bit:
-#     name: setup bit
+
+#   update_and_export_lane:
+#     name: update and export lane
 
 #     runs-on: ubuntu-latest
 
 #     needs: [setup_npm, extract_local_lane_name]  
 
-#     if: startsWith(github.event.pull_request.head.ref, 'components/') || startsWith(github.ref_name, 'components/')
+#     if: startsWith(github.event.pull_request.head.ref, 'components/')
 
 #     env:
 #       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
+#       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
 
-#     outputs:
-#       lane_name: ${{ needs.extract_local_lane_name.outputs.extracted }} 
-    
 #     steps:
 #       - name: Install Bit Version Manager
 #         run: npm i -g @teambit/bvm
@@ -76,42 +67,16 @@
 #           bit config set analytics_reporting false
 #           bit config set anonymous_reporting false
 #           bit config set user.token $BIT_TOKEN
-      # - name: Import Components
-      #   run: bit import
-      # - name: Install and Compile all Components
-      #   run: bit install && bit compile
-
-  # create_lane:
-  #   name: create lane
-
-  #   runs-on: ubuntu-latest
-
-  #   needs: [setup_bit]  
-
-  #   if: startsWith(github.event.pull_request.head.ref, 'components/')
-
-  #   env:
-  #     LANE_NAME: ${{ needs.setup_bit.outputs.lane_name }}
-    
-  #   steps: 
-  #     - uses: actions/checkout@v3
-  #     - name: Create Local Lane
-  #       run: bit lane create $LANE_NAME
-  
-  # update_lane:
-  #   name: create lane
-
-  #   runs-on: ubuntu-latest
-
-  #   needs: [setup_bit]  
-
-  #   if: startsWith(github.ref_name, 'components/')
-
-  #   env:
-  #     LANE_NAME: ${{ needs.setup_bit.outputs.lane_name }}
-  #     SCOPE_NAME: ${{ secrets.SCOPE_NAME }}
-    
-  #   steps: 
-  #     - uses: actions/checkout@v3
-  #     - name: Fetch Remote Lane
-  #       run: bit lane create $LANE_NAME
+#       - name: add bvm bin folder to path
+#         run: echo "$HOME/bin" >> $GITHUB_PATH
+#       - uses: actions/checkout@v3
+#       - name: Create Local Lane
+#         run: bit lane create $LANE_NAME
+#       - name: Import Components
+#         run: bit import
+#       - name: Install and Compile
+#         run: bit install && bit compile
+#       - name: Snap All Components without building them
+#         run: BIT_FEATURES=build-on-ci bit snap -a
+#       - name: Export the Lane and the Components
+#         run: bit export

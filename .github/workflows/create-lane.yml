@@ -58,6 +58,8 @@ jobs:
     env:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }} 
+      LANE_ARTIFACT_FILE_NAME: create/${{ needs.extract_local_lane_name.outputs.extracted }}.txt
+      LANE_ARTIFACT_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_info
    
     steps:
       - name: Install Bit Version Manager
@@ -83,4 +85,10 @@ jobs:
       - name: Snap All Components without building them
         run: BIT_FEATURES=build-on-ci bit snap -a
       - name: Export the Lane and the Components
-        run: bit export
+        run: bit export > export_output.txt
+      - name: Extract Remote Scope
+        run: grep -n "remote" export_output.txt | tail -1 | awk '{print $NF}' > $LANE_ARTIFACT_FILE_NAME
+      - uses: actions/upload-artifact@v3
+        with:
+          name: $LANE_ARTIFACT_NAME
+          path: $LANE_ARTIFACT_FILE_NAME
