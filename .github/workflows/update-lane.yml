@@ -18,6 +18,8 @@ jobs:
 
     needs: [verify_lane_has_been_exported]  
 
+    if: ${{ needs.verify_lane_has_been_exported.isExported == 1 }}
+
     steps:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
