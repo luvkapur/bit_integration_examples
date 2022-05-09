@@ -66,6 +66,7 @@ jobs:
         with: 
           name: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope
           workflow: create-lane.yml
+          check_artifacts: true
       - id: lane_artifact
         run: |
           var=$(cat $LANE_NAME_scope.txt);
