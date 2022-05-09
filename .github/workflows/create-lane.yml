@@ -32,7 +32,7 @@ jobs:
 
     runs-on: bitcli/bit
 
-    needs: [setup_npm, extract_local_lane_name]
+    needs: [extract_local_lane_name]
 
     if: startsWith(github.event.pull_request.head.ref, 'components/')
 
