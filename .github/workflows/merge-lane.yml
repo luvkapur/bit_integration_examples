@@ -111,7 +111,7 @@ jobs:
       - name: Install and Compile
         run: bit install && bit compile
       - name: Fetch Remote Lane
-        run: bit lane fetch $SCOPE_NAME/$LANE_NAME --lanes
+        run: bit fetch $SCOPE_NAME/$LANE_NAME --lanes
       - name: Merge Lane to Main
         run: bit lane merge $LANE_NAME --remote $SCOPE_NAME
       - name: Export the Lane and the Components
