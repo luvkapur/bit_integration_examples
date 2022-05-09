@@ -56,6 +56,7 @@ jobs:
     env:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
       LANE_ARTIFACT_FILE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope.txt
+      SCOPE_JSON_ARTIFACT: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_json
 
     outputs:
       lane_scope: ${{ steps.lane_artifact.outputs.scope }}
@@ -75,6 +76,17 @@ jobs:
 
       - name: Display Lane Scope
         run: echo ${{ steps.lane_artifact.outputs.scope }}
+
+      - name: Download scope.json
+        uses: dawidd6/action-download-artifact@v2
+      - id: scope_json_artifact
+        with: 
+          name: $SCOPE_JSON_ARTIFACT
+          workflow: create-lane.yml
+          check_artifacts: true
+
+      - name: Display Scope JSON
+        run: cat scope.json
       
   update_and_export_lane:
     name: update and export lane
@@ -106,12 +118,6 @@ jobs:
       - name: add bvm bin folder to path
         run: echo "$HOME/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v3
-      - name: Download scope.json
-        uses: dawidd6/action-download-artifact@v2
-        with: 
-          name: $SCOPE_JSON_ARTIFACT
-          workflow: create-lane.yml
-          check_artifacts: true
       - name: Import Existing Lane
         run: bit import
       - name: Install and Compile 
