@@ -78,9 +78,7 @@ jobs:
         run: echo ${{ steps.lane_artifact.outputs.scope }}
 
       - name: Display Lane Scope JSON
-        run: |
-          tail -n +2 $LANE_ARTIFACT_FILE_NAME > scope.json
-          cat scope.json | python -c "import sys,json;json.loads(sys.stdin.read());print 'OK'"
+        run: tail -n +2 $LANE_ARTIFACT_FILE_NAME > scope.json
 
       - name: Upload scope.json as an artifact for the next job
         uses: actions/upload-artifact@v3
@@ -126,8 +124,10 @@ jobs:
         run: mv scope.json .git/bit/
       - name: Display scope.json
         run: cat .git/bit/scope.json
+      - name: Re init Bit
+        run: bit init
       - name: Import Existing Lane
-        run: bit import --log --verbose
+        run: bit import --log
       - name: Install and Compile 
         run: bit install && bit compile
       - name: Snap All Components without building them
