@@ -111,11 +111,12 @@ jobs:
         with: 
           name: $SCOPE_JSON_ARTIFACT
           workflow: create-lane.yml
+          check_artifacts: true
       - name: Import Existing Lane
         run: bit import
-      - name: Install and Compile
+      - name: Install and Compile 
         run: bit install && bit compile
       - name: Snap All Components without building them
-        run: BIT_FEATURES=build-on-ci bit snap -a
+        run: BIT_FEATURES=build-on-ci bit snap
       - name: Export the Lane and the Components
         run: bit export
