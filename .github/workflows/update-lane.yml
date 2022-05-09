@@ -55,6 +55,7 @@ jobs:
 
     env:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
+      LANE_ARTIFACT_FILE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope.txt
 
     outputs:
       lane_scope: ${{ steps.lane_artifact.outputs.scope }}
@@ -69,7 +70,7 @@ jobs:
           check_artifacts: true
       - id: lane_artifact
         run: |
-          var=$(cat $LANE_NAME_scope.txt);
+          var=$(cat $LANE_ARTIFACT_FILE_NAME);
           echo ::set-output name=scope::$var
 
       - name: Display Lane Scope
