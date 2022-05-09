@@ -58,6 +58,8 @@ jobs:
 
     env:
       LANE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}  
+      LANE_ARTIFACT_FILE_NAME: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope.txt
+      SCOPE_JSON_ARTIFACT: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_json
 
     outputs:
       lane_scope: ${{ steps.lane_artifact.outputs.scope }}
@@ -67,12 +69,13 @@ jobs:
       - name: Download Lane Artifact
         uses: dawidd6/action-download-artifact@v2
         with: 
-          name: ${{ needs.extract_local_lane_name.outputs.extracted }}
+          name: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope
           workflow: create-lane.yml
+          check_artifacts: true
       - id: lane_artifact
         run: |
-          var=$(cat $LANE_NAME.txt);
-          echo ::set-output name=scope::$var
+          scopeName=$(head -1 $LANE_ARTIFACT_FILE_NAME);
+          echo ::set-output name=scope::$scopeName
 
       - name: Display Lane Scope
         run: echo ${{ steps.lane_artifact.outputs.scope }}
@@ -105,9 +108,10 @@ jobs:
           bit config set user.token $BIT_TOKEN
       - name: add bvm bin folder to path
         run: echo "$HOME/bin" >> $GITHUB_PATH
-      - uses: actions/checkout@v3
+      - name: Initialize Bit repo
+        run: bit init
       - name: Import all components from Main
-        run: bit import
+        run: bit import "$SCOPE_NAME/*"
       - name: Install and Compile
         run: bit install && bit compile
       - name: Fetch Remote Lane
