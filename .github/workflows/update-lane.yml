@@ -71,22 +71,15 @@ jobs:
           check_artifacts: true
       - id: lane_artifact
         run: |
-          var=$(cat $LANE_ARTIFACT_FILE_NAME);
-          echo ::set-output name=scope::$var
+          scopeName=$(head -1 $LANE_ARTIFACT_FILE_NAME);
+          echo ::set-output name=scope::$scopeName
 
       - name: Display Lane Scope
         run: echo ${{ steps.lane_artifact.outputs.scope }}
 
-      - name: Download scope.json
-        uses: dawidd6/action-download-artifact@v2
-        with: 
-          name: $SCOPE_JSON_ARTIFACT
-          workflow: create-lane.yml
-          check_artifacts: true
+      - name: Display Lane Scope JSON
+        run: tail -n +2 $LANE_ARTIFACT_FILE_NAME
 
-      - name: Display Scope JSON
-        run: cat scope.json
-      
   update_and_export_lane:
     name: update and export lane
 
