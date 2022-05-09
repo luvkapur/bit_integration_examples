@@ -125,7 +125,7 @@ jobs:
       - name: Display scope.json
         run: cat .git/bit/scope.json
       - name: Import Existing Lane
-        run: bit import
+        run: bit import --log --verbose
       - name: Install and Compile 
         run: bit install && bit compile
       - name: Snap All Components without building them
