@@ -106,11 +106,9 @@ jobs:
       - name: add bvm bin folder to path
         run: echo "$HOME/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v3
-      - name: Import Existing Lane
-        run: bit lane import $SCOPE_NAME/$LANE_NAME
       - name: Install and Compile
         run: bit install && bit compile
-      - name: Merge main lane
-        run: bit lane merge main --remote $SCOPE_NAME
+      - name: Merge Lane to Main
+        run: bit lane merge $LANE_NAME --remote $SCOPE_NAME
       - name: Export the Lane and the Components
         run: bit export
