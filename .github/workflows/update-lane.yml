@@ -117,9 +117,9 @@ jobs:
         run: echo "$HOME/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
-          with:
-            name: scope_json
-            path: scope.json
+        with:
+          name: scope_json
+          path: scope.json
       - name: Update Local scope.json
         run: mv scope.json .git/bit/
       - name: Import Existing Lane
