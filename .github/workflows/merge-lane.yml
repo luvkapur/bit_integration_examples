@@ -111,6 +111,6 @@ jobs:
       - name: Install and Compile
         run: bit install && bit compile
       - name: Merge main lane
-        run: bit lane merge
+        run: bit lane merge main -r $SCOPE_NAME
       - name: Export the Lane and the Components
         run: bit export
