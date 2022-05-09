@@ -64,11 +64,11 @@ jobs:
       - name: Download Lane Artifact
         uses: dawidd6/action-download-artifact@v2
         with: 
-          name: ${{ needs.extract_local_lane_name.outputs.extracted }}
+          name: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope
           workflow: create-lane.yml
       - id: lane_artifact
         run: |
-          var=$(cat $LANE_NAME.txt);
+          var=$(cat $LANE_NAME_scope.txt);
           echo ::set-output name=scope::$var
 
       - name: Display Lane Scope
@@ -103,8 +103,13 @@ jobs:
       - name: add bvm bin folder to path
         run: echo "$HOME/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v3
+      - name: Download scope.json
+        uses: dawidd6/action-download-artifact@v2
+        with: 
+          name: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_json
+          workflow: create-lane.yml
       - name: Import Existing Lane
-        run: bit lane import $SCOPE_NAME/$LANE_NAME
+        run: bit import
       - name: Install and Compile
         run: bit install && bit compile
       - name: Snap All Components without building them
