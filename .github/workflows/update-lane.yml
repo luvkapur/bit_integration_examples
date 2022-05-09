@@ -78,7 +78,9 @@ jobs:
         run: echo ${{ steps.lane_artifact.outputs.scope }}
 
       - name: Display Lane Scope JSON
-        run: tail -n +2 $LANE_ARTIFACT_FILE_NAME > scope.json
+        run: |
+        tail -n +2 $LANE_ARTIFACT_FILE_NAME > scope.json
+        cat scope.json | python -c "import sys,json;json.loads(sys.stdin.read());print 'OK'"
 
       - name: Upload scope.json as an artifact for the next job
         uses: actions/upload-artifact@v3
