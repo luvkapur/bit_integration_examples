@@ -87,6 +87,7 @@ jobs:
       BIT_TOKEN: ${{ secrets.BIT_TOKEN }}
       LANE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_name }} 
       SCOPE_NAME: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope }}
+      SCOPE_JSON_ARTIFACT: ${{ needs.verify_lane_has_been_exported.outputs.lane_name }}_scope_json
 
     if: ${{ needs.verify_lane_has_been_exported.outputs.lane_scope != '' }}
 
@@ -108,7 +109,7 @@ jobs:
       - name: Download scope.json
         uses: dawidd6/action-download-artifact@v2
         with: 
-          name: ${{ needs.extract_local_lane_name.outputs.extracted }}_scope_json
+          name: $SCOPE_JSON_ARTIFACT
           workflow: create-lane.yml
       - name: Import Existing Lane
         run: bit import
