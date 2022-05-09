@@ -44,7 +44,7 @@ jobs:
         uses: frabert/replace-string-action@v2.0
         with:
           pattern: '/'
-          string: ${{ github.ref_name }}
+          string: ${{ github.event.pull_request.head.ref }}
           replace-with: '_'
           flags: 'g'
 
