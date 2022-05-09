@@ -79,7 +79,6 @@ jobs:
 
       - name: Download scope.json
         uses: dawidd6/action-download-artifact@v2
-      - id: scope_json_artifact
         with: 
           name: $SCOPE_JSON_ARTIFACT
           workflow: create-lane.yml
