@@ -27,7 +27,7 @@
     /**
      * default scope for all components in workspace.
      **/
-    "defaultScope": "luvk.playground"
+    "defaultScope": "luvk.test"
   },
   /**
    * main configuration for component dependency resolution.
