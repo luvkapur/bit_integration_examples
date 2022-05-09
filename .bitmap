@@ -11,25 +11,25 @@
 {
     "inputs/dropdown": {
         "scope": "teambit.design",
-        "version": "0.0.11",
+        "version": "e47eca24a310dc6dc86e7d2e8831161bee394a07",
         "mainFile": "index.ts",
         "rootDir": "design/inputs/dropdown"
     },
     "inputs/selectors/checkbox-item": {
         "scope": "teambit.design",
-        "version": "0.1.2",
+        "version": "9ebd89902586e67cad188c8d2de3a4603e8d187b",
         "mainFile": "index.ts",
         "rootDir": "design/inputs/selectors/checkbox-item"
     },
     "inputs/selectors/menu-item": {
         "scope": "teambit.design",
-        "version": "0.1.2",
+        "version": "4dedf3701287d65a743ae6ee4b1cdf493df56c8c",
         "mainFile": "index.ts",
         "rootDir": "design/inputs/selectors/menu-item"
     },
     "inputs/selectors/multi-select": {
         "scope": "teambit.design",
-        "version": "0.1.2",
+        "version": "7c85d7ffaffb31b5ac637952c63e75fcf02a1989",
         "mainFile": "index.ts",
         "rootDir": "design/inputs/selectors/multi-select"
     },
