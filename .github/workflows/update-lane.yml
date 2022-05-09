@@ -122,6 +122,8 @@ jobs:
           path: scope.json
       - name: Update Local scope.json
         run: mv scope.json .git/bit/
+      - name: Display scope.json
+        run: cat .git/bit/scope.json
       - name: Import Existing Lane
         run: bit import
       - name: Install and Compile 
